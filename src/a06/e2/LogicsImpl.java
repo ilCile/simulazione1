@@ -9,6 +9,7 @@ public class LogicsImpl implements Logics{
     private final Map<Pair<Integer,Integer>, Integer> cells;
     private final int size;
     private boolean doneSomething;
+    private final static int BLANK = -1;
 
     public LogicsImpl(int size) {
         this.size = size;
@@ -34,8 +35,8 @@ public class LogicsImpl implements Logics{
             prec = 0;
             for (int i = this.size - 1; i >= 0; i--) {
                 current = this.cells.get(new Pair<>(i, j));
-                if (current == prec && current != -1) {
-                    this.cells.put(new Pair<>(i, j), -1);
+                if (current == prec && current != BLANK) {
+                    this.cells.put(new Pair<>(i, j), BLANK);
                     this.cells.put(new Pair<>(i + 1, j), prec * 2);
                     doneSomething = true;
                     break;
@@ -47,16 +48,19 @@ public class LogicsImpl implements Logics{
         return new HashMap<>(this.cells);
     }
 
+    /**
+     * move down all the cells that need it (the ones above a blank one)
+     */
     public void move() {
         int prec, current;
         for (int j = 0; j < this.size; j++) {
             prec = 0;
             for (int i = this.size - 1; i >= 0; i--) {
                 current = this.cells.get(new Pair<>(i, j));
-                if (prec < 0) {
-                    this.cells.put(new Pair<>(i, j), -1);
+                if (prec == BLANK) {
+                    this.cells.put(new Pair<>(i, j), BLANK);
                     this.cells.put(new Pair<>(i + 1, j), current);
-                    current = -1;
+                    current = BLANK;
                 }
                 prec = current;
             }
