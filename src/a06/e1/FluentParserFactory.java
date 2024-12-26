@@ -37,5 +37,4 @@ public interface FluentParserFactory {
      * @return (assuming i0=0, op=i->i+2, s="a") a parser accepting pairs <0,()>,<2,(a,a)>,<4,(a,a,a,a)>...
      */
     FluentParser<Pair<Integer,List<String>>> incrementalPairs(int i0, UnaryOperator<Integer> op, String s);
-
 }
